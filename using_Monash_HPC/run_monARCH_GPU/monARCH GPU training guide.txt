@@ -1,0 +1,32 @@
+1. 
+Check available GPUs:
+    show_cluster
+
+2. 
+Allocate yourself some GPUs (Change the code in check_gpu_and_submit_job.sh to reflect needs).
+As a rough guideline, 
+4-8 CPUs per GPU.
+Memory should be 2-4 times your dataset.
+You can also check our WandB account to inspect usage graphs of past runs.
+Run code:
+    sbatch /monfs01/projects/ys68/XRD_ML/monash_HPC_setup/run_monARCH_GPU/sh/submit_training_job.sh
+
+3.
+Check if you were allocated GPUs by looking for your job in slurm_outputs.
+(You may have to wait ~30 seconds for the file to be created)
+The terminal outputs will all be in the slurm file now.
+You could also monitor the slurm file in terminal by now using:
+    tail -f <path_to_slurm_file>
+(You will have to ^C to use terminal again)
+
+4.
+You can check on the your job stats using:
+    squeue -u `whoami`
+AND
+    show_job <job_id>
+AND
+    scontrol show job <job_id>
+
+You can cancle a job using:
+    scancel <job_id>
+

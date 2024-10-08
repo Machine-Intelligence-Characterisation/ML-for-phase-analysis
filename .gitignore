@@ -1,0 +1,19 @@
+# Ignore the data files
+*.db
+*.pkl
+*.gz
+
+#Ignore wandb
+wandb/
+
+#Ignore trained models
+*.pth
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore slurm
+*.out
