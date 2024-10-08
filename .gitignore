@@ -20,6 +20,6 @@ __pycache__/
 
 # Ignore sim_params in simulations/
 TOPAS_sim/simulations/**/*.txt
-#*.txt 
+*.txt 
 
 
