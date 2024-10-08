@@ -17,3 +17,6 @@ __pycache__/
 
 # Ignore slurm
 *.out
+
+# Ignore sim_params in simulations/
+TOPAS_sim/simulations/**/*.txt
