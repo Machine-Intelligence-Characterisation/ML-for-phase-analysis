@@ -4,37 +4,19 @@ import torch.nn as nn
 import torch.optim as optim
 
 # Import models
-from src.models.CNNten import CNNten, CNNten_MultiTask, smallCNNten_MultiTask
-from src.models.CNNeleven import CNNeleven, CNNeleven_MultiTask
-from src.models.smallFCN import smallFCN, smallFCN_MultiTask, smallFCN_SelfAttention_MultiTask, experimentalFCN
-from src.models.ViT import ViT1D_MultiTask
-from src.models.MLPten import MLPten
+from src.models.smallFCN import smallFCN
 
 # TODO: Is model class necessary?
 
 # Paths
-DATA_DIR = 'training_data/simXRD_partial_data'
+DATA_DIR = 'training_data/processed_data_test_1'
 MODEL_SAVE_DIR = 'trained_models'
 
-# Data
-TRAIN_DATA = os.path.join(DATA_DIR, 'train.db')
-VAL_DATA = os.path.join(DATA_DIR, 'val.db')
-TEST_DATA = os.path.join(DATA_DIR, 'test.db')
-
 # Model Setup
-MODEL_TYPE = "CNNeleven_MultiTask"                 # Options: Any of the imported models. It should be a string. e.g. "smallFCN"
-MULTI_TASK = True                                  # Set to True for multi-task learning (points train function to train_multi_spg_cryssystem_blt_element.py)
+MODEL_TYPE = "smallFCN"                 # Options: Any of the imported models. It should be a string. e.g. "smallFCN"
 
 # IF SINGLE TASK, loss
-CRITERION_TYPE = "CrossEntropyLoss"  # Options: "CrossEntropyLoss", "MSELoss"
-
-# IF MULTI-TASK, loss
-MULTI_TASK_CRITERIA = {
-    'spg': nn.CrossEntropyLoss(),
-    'crysystem': nn.CrossEntropyLoss(),
-    'blt': nn.CrossEntropyLoss(),
-    'composition': nn.BCEWithLogitsLoss()
-}
+CRITERION_TYPE = "MSELoss"  # Options: "CrossEntropyLoss", "MSELoss"
 
 # Hyper Params
 LEARNING_RATE = 0.001
@@ -49,24 +31,15 @@ NUM_WORKERS = 6
 
 # WandB configuration (Note that there is already a basic WandB log in train.py)
 USE_WANDB = True        # Set to False if you don't want to use WandB at all.
-WANDB_PROJECT_NAME = "FirstModelExperiments"
+WANDB_PROJECT_NAME = "Phase_Analysis_1"
 WANDB_SAVE_DIR = "/wandb"
 SAVE_MODEL_TO_WANDB_SERVERS = False
 WANDB_LOG_ARCHITECTURE = False
 
 ###########################################################################################
-############# DON'T TOUCH - CThese classes contain the options for above ##################
+############# DON'T TOUCH - These classes contain the options for above ##################
 MODEL_CLASS = {
-    "CNNten": CNNten,
-    "CNNten_MultiTask": CNNten_MultiTask,
-    "CNNeleven_MultiTask": CNNeleven_MultiTask,
-    "smallCNNten_MultiTask": smallCNNten_MultiTask,
-    "smallFCN": smallFCN,
-    "smallFCN_MultiTask": smallFCN_MultiTask,
-    "smallFCN_SelfAttention_MultiTask": smallFCN_SelfAttention_MultiTask,
-    "experimentalFCN": experimentalFCN,
-    "MLPten": MLPten,
-    "ViT1D_MultiTask": ViT1D_MultiTask
+    "smallFCN": smallFCN
 }
 CRITERION_CLASS = {
     "CrossEntropyLoss": nn.CrossEntropyLoss,

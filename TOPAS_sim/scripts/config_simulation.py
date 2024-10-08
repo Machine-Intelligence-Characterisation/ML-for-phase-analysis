@@ -2,8 +2,8 @@ from datetime import datetime
 
 # General Simulation Parameters
 GENERAL = {
-    'num_simulations': 100,
-    'random_seed': 73
+    'num_simulations': 50,
+    'random_seed': 73       # For generating the randomised values between ranges
 }
 GENERAL['output_directory'] = f"TOPAS_sim/simulations/batch_{datetime.now().strftime('%Y%m%d_%H%M%S')}_NumSims{GENERAL['num_simulations']}"
 
@@ -123,9 +123,3 @@ PHASES = [
         'scale': {'value': 0, 'randomize': True, 'range': (0, 1)},
     },
 ]
-
-# Machine Learning Parameters
-ML = {
-    'train_test_split': 0.8,
-    'random_state': 42,
-}

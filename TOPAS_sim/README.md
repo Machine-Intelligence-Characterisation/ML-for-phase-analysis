@@ -30,7 +30,7 @@ Generation of simulated X-ray diffraction patterns using TOPAS, with a focus on 
    - This will generate XY files (diffraction patterns) in the `xy_files` subdirectory
 
 4. **Prepare Data for Machine Learning**
-   - Run `prepare_ml_data.py` to compile XY files and save to `training_data`
+   - Run `prepare_ml_data.py` to compile XY files and save the processed data. Change to the batch directory you want to process in __main__
 
 ## Key Files
 
