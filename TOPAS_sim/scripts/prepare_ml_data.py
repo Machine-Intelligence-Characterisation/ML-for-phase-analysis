@@ -4,6 +4,8 @@ import pandas as pd
 import json
 from config_simulation import GENERAL, TOPAS
 
+# TODO: Normalise intensities to 100
+  
 def read_xy_file(file_path):
     data = np.loadtxt(file_path, skiprows=1)
     return data[:, 1]  # Return only intensity values
