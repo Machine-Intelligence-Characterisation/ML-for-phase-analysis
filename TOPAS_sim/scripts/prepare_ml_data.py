@@ -4,11 +4,15 @@ import pandas as pd
 import json
 from config_simulation import GENERAL, TOPAS
 
-# TODO: Normalise intensities to 100
+# TODO: The normalise function finds the max intensity each call. If it is slow this is a quick speed up.
   
 def read_xy_file(file_path):
     data = np.loadtxt(file_path, skiprows=1)
     return data[:, 1]  # Return only intensity values
+
+def normalize_intensity(intensity):
+    max_intensity = np.max(intensity)
+    return (intensity / max_intensity) * 100
 
 def prepare_ml_data(batch_dir):
     # Create a subdirectory for processed data
@@ -28,7 +32,8 @@ def prepare_ml_data(batch_dir):
         
         if os.path.exists(xy_file):
             intensity = read_xy_file(xy_file)
-            intensities.append(intensity)
+            normalized_intensity = normalize_intensity(intensity)
+            intensities.append(normalized_intensity)
             
             params = all_params[i]
             additional_params.append([
