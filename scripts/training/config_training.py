@@ -8,20 +8,20 @@ from src.models.smallFCN import smallFCN
 
 # TODO: Is model class necessary?
 
-# Paths
-DATA_DIR = 'training_data/processed_data_test_1'
+# Paths (Data should point to processed data)
+DATA_DIR = 'training_data/processed_data_numsims_2500_batch_20241010_212052'
 MODEL_SAVE_DIR = 'trained_models'
 
 # Model Setup
 MODEL_TYPE = "smallFCN"                 # Options: Any of the imported models. It should be a string. e.g. "smallFCN"
 
 # IF SINGLE TASK, loss
-CRITERION_TYPE = "MSELoss"  # Options: "CrossEntropyLoss", "MSELoss"
+CRITERION_TYPE = "KLDivLoss"  # Options: "CrossEntropyLoss", "MSELoss", "KLDivLoss"
 
 # Hyper Params
 LEARNING_RATE = 0.001
 BATCH_SIZE = 32
-NUM_EPOCHS = 100
+NUM_EPOCHS = 6
 
 # Optimiser
 OPTIMIZER_TYPE = "Adam" # Options: "Adam", "SGD"
@@ -43,7 +43,8 @@ MODEL_CLASS = {
 }
 CRITERION_CLASS = {
     "CrossEntropyLoss": nn.CrossEntropyLoss,
-    "MSELoss": nn.MSELoss
+    "MSELoss": nn.MSELoss,
+    "KLDivLoss": lambda: nn.KLDivLoss(reduction='batchmean')
 }
 OPTIMIZER_CLASS = {
     "Adam": optim.Adam,

@@ -1,9 +1,7 @@
 import os
 
 # Import models
-from src.models.CNNten import CNNten, CNNten_multi_task
 from src.models.smallFCN import smallFCN, smallFCN_multi_task
-from src.models.MLPten import MLPten
 
 # TODO: MAKE "infer.py"
 # TODO: MAKE this config easier to navigate
@@ -32,8 +30,6 @@ MODEL_CLASS = {
     "CNNten": CNNten,
     "CNNten_multi_task": CNNten_multi_task,
     "smallFCN": smallFCN,
-    "smallFCN_multi_task": smallFCN_multi_task,
-    "MLPten": MLPten
 }
 
 # Task settings

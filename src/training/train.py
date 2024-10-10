@@ -1,4 +1,5 @@
 import torch
+import torch.nn.functional as F
 import wandb
 from tqdm import tqdm
 import numpy as np
@@ -18,7 +19,9 @@ def train(model, train_loader, val_loader, test_loader, criterion, optimizer, de
             
             optimizer.zero_grad()
             output = model(data)
-            loss = criterion(output, target)
+            # Convert model output to log probabilities
+            log_output = torch.log(output + 1e-8)  # Add small constant to avoid log(0)
+            loss = criterion(log_output, target)
             loss.backward()
             optimizer.step()
             train_loss += loss.item()
@@ -75,7 +78,9 @@ def evaluate(model, data_loader, criterion, device):
             target = target.to(device)
             
             output = model(data)
-            loss = criterion(output, target)
+            # Convert model output to log probabilities
+            log_output = torch.log(output + 1e-8)  # Add small constant to avoid log(0)
+            loss = criterion(log_output, target)
             total_loss += loss.item()
             
             all_targets.append(target.cpu().numpy())

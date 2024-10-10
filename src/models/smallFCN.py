@@ -1,7 +1,5 @@
-import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import math
 
 # The FCN from: https://onlinelibrary.wiley.com/doi/full/10.1002/aisy.202300140
 # As described here: https://github.com/socoolblue/Advanced_XRD_Analysis/blob/main/XRD_analysis.ipynb
@@ -59,6 +57,9 @@ class smallFCN(nn.Module):
         out = self.dropout(F.relu(self.final_conv_3(out)))
         out = self.dropout(F.relu(self.final_conv_4(out)))
         out = self.final_conv_5(out)
-        out = self.flatten(out)
         
+        out = self.flatten(out)
+
+        out = F.softmax(out, dim=1)
+
         return out
