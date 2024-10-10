@@ -21,8 +21,11 @@ __pycache__/
 # Ignore sim_params in simulations/
 TOPAS_sim/simulations/**/*.txt
 
-# Ignore TOPAS sims
+# Ignore TOPAS sim data
 *.xy
+*.npy
+*.csv
+*.json
 
 
 
