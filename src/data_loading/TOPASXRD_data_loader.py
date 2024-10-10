@@ -12,7 +12,7 @@ class TOPASXRDDataset(Dataset):
         # Load the data
         self.intensities = np.load(os.path.join(data_dir, 'intensities.npy'))
         self.weight_fractions = pd.read_csv(os.path.join(data_dir, 'weight_fractions.csv'))
-        self.additional_params = pd.read_csv(os.path.join(data_dir, 'additional_params.csv'))
+        self.additional_params = pd.read_csv(os.path.join(data_dir, 'all_params.csv'))
         
         # Load metadata
         with open(os.path.join(data_dir, 'metadata.json'), 'r') as f:

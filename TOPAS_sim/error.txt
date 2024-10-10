@@ -1,0 +1,171 @@
+                                               
+                                                                                                                
+                                              
+	num_runs 50
+
+
+template_file TOPAS_sim/input/topas_template.inp
+two_theta_start 5
+two_theta_end 150
+two_theta_step 0.02
+background 1
+mixture_MAC 92.040948
+LP_Factor 17.0
+Rp 173
+Rs 173
+Divergence 1
+filament_length 12
+sample_length 25
+receiving_slit_length 12
+axial_n_beta 20
+axial_del 0.0053
+ymin_on_ymax 0.0001
+wavelength_distribution [(0.0159, 1.534753, 3.6854), (0.5791, 1.540596, 0.437), (0.0762, 1.541058, 0.6), (0.2417, 1.54441, 0.52), (0.0871, 1.544721, 0.62)]
+ZE 0.028537983157215813
+SD 0.011586279290684065
+AB 265.7110315801424
+SW 0.3525643067782491
+primary_soller_angle 5.478966950833575
+secondary_soller_angle 4.643385993374306
+Corundum_r_bragg 1.77566984
+Corundum_Phase_LAC_1_on_cm 125.994742
+Corundum_Phase_Density_g_on_cm3 3.98833597
+Corundum_Al_x 0
+Corundum_Al_y 0
+Corundum_Al_z 0.35218
+Corundum_Al_beq 0.23356
+Corundum_O_x 0.30603
+Corundum_O_y 0
+Corundum_O_z 0.25
+Corundum_O_beq 0.17408
+Corundum_CS_L 2515.158210927766
+Corundum_CS_G 5763.163712660155
+Corundum_Strain_L 0.07728560350613342
+Corundum_Strain_G 0.03113173239462476
+Corundum_a 4.740408317439257
+Corundum_c 13.01936000956785
+Fluorite_r_bragg 2.81476313
+Fluorite_Phase_LAC_1_on_cm 301.276541
+Fluorite_Phase_Density_g_on_cm3 3.18077903
+Fluorite_Ca_x 0
+Fluorite_Ca_y 0
+Fluorite_Ca_z 0
+Fluorite_Ca_beq 0.47587
+Fluorite_F_x 0.25
+Fluorite_F_y 0.25
+Fluorite_F_z 0.25
+Fluorite_F_beq 0.67765
+Fluorite_CS_L 9065.720710354219
+Fluorite_CS_G 1676.037954753699
+Fluorite_Strain_L 0.05890750120038599
+Fluorite_Strain_G 0.026270959484437823
+Fluorite_a 5.48763397203703
+Zincite_r_bragg 1.8027893
+Zincite_Phase_LAC_1_on_cm 276.433402
+Zincite_Phase_Density_g_on_cm3 5.68040088
+Zincite_Zn_x 0.3333333333333333
+Zincite_Zn_y 0.6666666666666666
+Zincite_Zn_z 0
+Zincite_Zn_beq 0.49364
+Zincite_O_x 0.3333333333333333
+Zincite_O_y 0.6666666666666666
+Zincite_O_z 0.375
+Zincite_O_beq 0.3861
+Zincite_CS_L 1139.1267854740706
+Zincite_CS_G 9708.772302104966
+Zincite_Strain_L 0.004438393010182511
+Zincite_Strain_G 0.0035009807478947595
+Zincite_a 3.2232580871607763
+Zincite_c 5.152745454534689
+
+	iters 0			                                     
+	
+                        
+                                       
+                        
+	yobs_eqn !calc_seq_no.xy = X; min =two_theta_start max =two_theta_end del =two_theta_step
+		
+                                                                              
+	xdd_out S1_seq_no.xy  load out_record out_fmt out_eqn { " %11.6f  " = X; " %11.6f\n  " = Max(Rand_Normal(Ycalc, Sqrt(Ycalc)), 0); }
+	
+                                               
+                             
+                                               
+	bkg    =background
+	mixture_MAC  =mixture_MAC
+	_ze !zerr =ZE     
+	_sd !disp =SD   
+	_ab !abs_a =AB  
+	_lp_factor !lpfact =LP_Factor  
+	Rp =Rp
+	Rs =Rs
+	_sw !sw =SW   
+	_fsfa  =Divergence  
+	axial_conv  
+		filament_length  =filament_length 
+		sample_length  =sample_length 
+		receiving_slit_length  =receiving_slit_length 
+		primary_soller_angle     !sol1  =primary_soller_angle 
+		secondary_soller_angle   !sol2  =secondary_soller_angle 
+		axial_n_beta  =axial_n_beta 
+		axial_del  =axial_del 
+	lam 
+		ymin_on_ymax  =ymin_on_ymax
+		=wavelength_distribution
+		 
+                                               
+                
+                         
+                 
+	str 
+		phase_name "Corundum" 
+ 		r_bragg  =Corundum_r_bragg
+ 		cell_mass 0 cell_volume 0 weight_percent 0 
+		_cs !cslcor =Corundum_CS_L  
+		_csg !csgcor =Corundum_CS_G  
+		_ms !mslcor =Corundum_Strain_L  
+		_msg !msgcor =Corundum_Strain_G  
+		space_group R_-3_C 
+		_plac =Corundum_Phase_LAC_1_on_cm  
+		_pden =Corundum_Phase_Density_g_on_cm3  
+		site Al num_posns  12 x  =Corundum_Al_x  y  =Corundum_Al_y z  =Corundum_Al_z occ Al+3  1 beq  =Corundum_Al_beq 
+		site O num_posns   18 x  =Corundum_O_x  y  =Corundum_O_y  z  =Corundum_O_z  occ O-2   1 beq  =Corundum_O_beq 
+		a !acor  =Corundum_a  b = Get(a); c !ccor  =Corundum_c  ga 120 
+		scale  =Corundum_scale
+		
+                        
+                  
+	str  
+		phase_name "Fluorite" 
+		r_bragg  =Fluorite_r_bragg 
+		cell_mass 0 cell_volume 0 weight_percent 0 
+		_cs !cslcaf =Fluorite_CS_L  
+		_csg !csgcaf =Fluorite_CS_G  
+		_ms !mslcaf =Fluorite_Strain_L 
+		_msg !msgcaf =Fluorite_Strain_G 
+		space_group F_M_-3_M 
+		_plac =Fluorite_Phase_LAC_1_on_cm  
+		_pden =Fluorite_Phase_Density_g_on_cm3  
+		site Ca num_posns  4 x  =Fluorite_Ca_x y  =Fluorite_Ca_y z  =Fluorite_Ca_z occ Ca+2  1 beq  =Fluorite_Ca_beq 
+		site F num_posns  8 x  =Fluorite_F_x y  =Fluorite_F_y z  =Fluorite_F_z occ F-1  1 beq  =Fluorite_F_beq 
+		a !acaf  =Fluorite_a  b = Get(a); c = Get(a); 
+		scale  =Fluorite_scale
+ 
+                        
+                
+	str  
+		phase_name "Zincite" 
+		r_bragg  =Zincite_r_bragg
+		cell_mass 0 cell_volume 0 weight_percent 0 
+		_cs !cslzno =Zincite_CS_L  
+		_csg !csgzin =Zincite_CS_G  
+		_ms !mslzin =Zincite_Strain_L  
+		_msg !msgzin =Zincite_Strain_G  
+		space_group P_63_M_C 
+		_plac =Zincite_Phase_LAC_1_on_cm  
+		_pden =Zincite_Phase_Density_g_on_cm3  
+		site Zn num_posns  2 x  =Zincite_Zn_x y  =Zincite_Zn_y z  =Zincite_Zn_z occ Zn+2  1 beq  =Zincite_Zn_beq 
+		site O num_posns  2 x  =Zincite_O_x y  =Zincite_O_y z  =Zincite_O_z occ O-2  1 beq  =Zincite_O_beq 
+		a !azin  =Zincite_a  b = Get(a); c !czin  =Zincite_c  ga 120 
+		scale  =Zincite_scale 
+*** Macro recursion debth greater than 12 and thus a possible infinite loop

@@ -1,0 +1,128 @@
+' --------------------------------------------
+'	Create a series of simulated patterns with random scale factors --> random QPA for Corundum, Fluorite, Zincite
+' --------------------------------------------
+	#include "params.txt"
+	iters 0			' Set to zero for calculated pattern 
+	
+	/*
+'	--------------------- 
+'  Simulation with NO counting statistics 
+'	--------------------- 
+'	Save INP file as an OUT
+	out_file = Concat(String(INP_File), ".out");
+	system_after_save_OUT { copy INP_File##.out INP_File##_##Run_Number##.out }
+	yobs_eqn !calc_##Run_Number##.xy = X; min 5 max 150 del 0.02		' min = start of pattern, max = end of pattern, del = step width - all in 2Theta
+		
+'	Save each simulated powder pattern in the XY file format
+	Out_X_Ycalc( S1_##Run_Number##.xy )
+	*/	
+		
+'	--------------------- 
+'  Simulation WITH counting statistics 
+'	--------------------- 
+' 	"calc_##Run_Number##.xy": identifying plot of the equation in the GUI - not outputting to current directory
+	yobs_eqn !calc_##Run_Number##.xy = X; min 5 max 150 del 0.02		' min = start of pattern, max = end of pattern, del = step width - all in 2Theta
+		
+'	Save each simulated powder pattern in the XY file format: "S1_##Run_Number##.xy"
+	Randomize_File_Out_Normal( S1_##Run_Number##.xy )     ' Use this to output calculated pattern - WITH counting statistics 
+	
+	
+	
+'	-------------------------------------------- 
+'	Instrument definition here	' {{{ 
+'	-------------------------------------------- 
+ 	r_exp  4.06973909 r_exp_dash  4.37166646 r_wp  7.19774449 r_wp_dash  7.73173353 r_p  5.34124753 r_p_dash  5.87721834 weighted_Durbin_Watson  0.782067221 gof  1.76860097 
+	bkg    1
+	mixture_MAC  92.040948`
+	Zero_Error(  !zerr,  0 min -0.10 max 0.10)    
+	Specimen_Displacement( !disp,  0 min -0.15 max 0.15)  
+	Absorption( !abs_a, 500 min 20 max 500 ) 
+	 
+'	One_on_X( one_on, 917.870418` ) 
+	 
+	LP_Factor(  !lpfact, 17.0 ) 
+	Rp 173 
+	Rs 173 
+	Slit_Width(   !sw, 0.368496028 min 0.2 max 0.45 )  
+	Divergence( 1 ) 
+	axial_conv  
+		filament_length  12 
+		sample_length  25 
+		receiving_slit_length  12 
+		primary_soller_angle     !sol1  5.75937 min 4.0 max 7.0 
+		secondary_soller_angle   !sol2  6.62026 min 4.0 max 7.0 
+		axial_n_beta  20 
+		axial_del  0.0053 
+	lam 
+		ymin_on_ymax  0.0001 
+		la     0.0159 lo  1.534753 lh  3.6854 
+		la     0.5791 lo  1.540596 lh  0.437 
+		la     0.0762 lo  1.541058 lh  0.6 
+		la     0.2417 lo  1.54441  lh  0.52 
+		la     0.0871 lo  1.544721 lh  0.62 
+'	}}}		 
+'	-------------------------------------------- 
+'	All STRs here	' {{{
+' 	--------------------- 
+' 		Corundum STR	' {{{
+	str 
+		phase_name "Corundum" 
+ 		r_bragg  1.77566984
+ 		MVW( 0, 0, 0) 
+      CS_L(!cslcor,     278.041764` min 100 max 9999 ) 
+      CS_G(!csgcor,     1332.83377` min 100 max 9999 ) 
+      Strain_L(!mslcor, 0.0140625517` min 0.0001 max 0.10 ) 
+      Strain_G(!msgcor, 0.0001` min 0.0001 max 0.10 ) 
+      space_group R_-3_C 
+      Phase_LAC_1_on_cm( 125.994742`) 
+      Phase_Density_g_on_cm3( 3.98833597`) 
+      site Al num_posns  12 x  0       y  0 z  0.35218 occ Al+3  1 beq     0.23356 '0.2259 
+      site O num_posns   18 x  0.30603 y  0 z  0.25    occ O-2   1 beq     0.17408 '0.2367 
+      Trigonal(!acor  4.758336` min 4.7 max 4.8 ,!ccor  12.989827` min 12.9 max 13.1) 
+
+		  	scale  =scale_cor(Run_Number); : 0  
+		
+' }}}
+' --------------------- 
+' 		Fluorite STR 	' {{{
+	str  
+      phase_name "Fluorite" 
+ 		r_bragg  2.81476313 
+ 		MVW( 0, 0, 0) 
+      CS_L(!cslcaf,     513.629301` min 100 max 9999 ) 
+      CS_G(!csgcaf,     215.48213` min 100 max 9999 ) 
+      Strain_L(!mslcaf, 0.0142737618` min 0.0001 max 0.10 )
+      Strain_G(!msgcaf, 0.000101123088` min 0.0001 max 0.10 )
+      space_group F_M_-3_M 
+       
+      Phase_LAC_1_on_cm( 301.276541`) 
+      Phase_Density_g_on_cm3( 3.18077903`) 
+      site Ca num_posns  4 x  0 y  0 z  0 occ Ca+2  1        beq    0.47587 '0.25 
+      site F num_posns  8 x  0.25 y  0.25 z  0.25 occ F-1  1 beq    0.67765 '0.5 
+      Cubic(!acaf  5.462971` min =5.40; max =5.50;) 
+
+		  	scale  =scale_caf(Run_Number); : 0  
+ 
+' }}}
+' --------------------- 
+' 		Zincite STR	' {{{
+	str  
+      phase_name "Zincite" 
+ 		r_bragg  1.8027893
+ 		MVW( 0, 0, 0) 
+      CS_L(!cslzno,     240.726855` min 100 max 9999 ) 
+      CS_G(!csgzin,     9991.59547` min 100 max 9999 ) 
+      Strain_L(!mslzin, 0.000106573178` min 0.0001 max 0.10 ) 
+      Strain_G(!msgzin, 0.000100000009` min 0.0001 max 0.10 ) 
+      space_group P_63_M_C 
+      Phase_LAC_1_on_cm( 276.433402`) 
+      Phase_Density_g_on_cm3( 5.68040088`) 
+      site Zn num_posns  2 x =1/3; :  0.33333 y =2/3; :  0.66667 z  0 occ Zn+2  1             beq 0.49364 ' 0.25 
+      site O num_posns  2 x =1/3; :  0.33333 y =2/3; :  0.66667 z =3/8; :  0.37500 occ O-2  1 beq 0.38610 ' 0.5 
+      Hexagonal(!azin  3.249181` min =3.17; max =3.27;, !czin  5.205846` min =5.15; max =5.25;) 
+
+		  	scale  =scale_zin(Run_Number); : 0  
+
+' }}}
+' }}}
+' -------------------------------------------- 
