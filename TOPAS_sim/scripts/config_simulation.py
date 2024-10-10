@@ -2,7 +2,7 @@ from datetime import datetime
 
 # General Simulation Parameters
 GENERAL = {
-    'num_simulations': 50,
+    'num_simulations': 10000,
     'random_seed': 73,       # For generating the randomised values between ranges
     'template_file': "TOPAS_sim/input/topas_template.inp"
 }
