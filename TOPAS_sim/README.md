@@ -7,15 +7,15 @@ Generation of simulated X-ray diffraction patterns using TOPAS, with a focus on 
 ## Workflow
 
 1. **Configuration Setup**
-   - Modify `config_simulation.py` to set desired parameters for simulations.
+   - Modify `scripts/config_simulation.py` to set desired parameters for simulations.
 
 2. **Generate Simulation Parameters**
    - Run `python TOPAS_sim/scripts/generate_simulation_params.py`
    - This creates a new batch directory in the `simulations` subdirectory with:
-     - Individual `simulation_params_X.txt` files for each simulation
+     - The combined `simulation_params.txt` file
      - `weight_fractions.csv` containing phase fractions
-     - `all_params.json` with all generated parameters
-     - `topas_input.inp` for TOPAS
+     - `all_params.json` with all the used parameters
+     - `topas_input.inp` to run on TOPAS
 
 3. **Run TOPAS Simulations**
    - Copy the generated batch folder to a TOPAS-enabled machine
@@ -23,5 +23,5 @@ Generation of simulated X-ray diffraction patterns using TOPAS, with a focus on 
    - This will generate XY files (diffraction patterns) in the `xy_files` subdirectory
 
 4. **Prepare Data for Machine Learning**
-   - Run `python TOPAS_sim/scripts/prepare_ml_data.py` to compile XY files and save the processed data. Change to the batch directory you want to process in __main__ of prepare_ml_data.py
+   - Run `python TOPAS_sim/scripts/prepare_ml_data.py` to compile XY files and save the processed data. Your ML data_loader should point to this processed_data folder.
 
