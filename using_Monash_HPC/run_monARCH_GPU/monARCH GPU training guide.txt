@@ -9,7 +9,7 @@ As a rough guideline,
 Memory should be 2-4 times your dataset.
 You can also check our WandB account to inspect usage graphs of past runs.
 Run code:
-    sbatch /monfs01/projects/ys68/XRD_phase_analysis/monash_HPC_setup/run_monARCH_GPU/sh/submit_training_job.sh
+    sbatch /monfs01/projects/ys68/XRD_phase_analysis/using_Monash_HPC/run_monARCH_GPU/sh/submit_training_job.sh
 
 3.
 Check if you were allocated GPUs by looking for your job in slurm_outputs.

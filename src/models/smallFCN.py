@@ -1,7 +1,7 @@
 import torch.nn as nn
 import torch.nn.functional as F
 
-# The FCN from: https://onlinelibrary.wiley.com/doi/full/10.1002/aisy.202300140
+# The FCN is from: https://onlinelibrary.wiley.com/doi/full/10.1002/aisy.202300140
 # As described here: https://github.com/socoolblue/Advanced_XRD_Analysis/blob/main/XRD_analysis.ipynb
 # Accessed 28/07/2024
 
@@ -24,6 +24,7 @@ class smallFCN(nn.Module):
         self.conv9 = nn.Conv1d(128, 256, kernel_size=6, padding=2)
         self.conv10 = nn.Conv1d(256, 256, kernel_size=6, padding=2)
 
+        # Adjusted kernel sizes and padding for final convolutions
         self.final_conv_1 = nn.Conv1d(256, 128, kernel_size=6, padding=2)
         self.final_conv_2 = nn.Conv1d(128, 64, kernel_size=6, padding=2)
         self.final_conv_3 = nn.Conv1d(64, 32, kernel_size=6, padding=2)
@@ -40,6 +41,7 @@ class smallFCN(nn.Module):
         self.flatten = nn.Flatten()
 
     def forward(self, x):
+        
         # Apply convolutions, activations, pooling, and dropout
         x = self.dropout(self.pool(F.relu(self.conv1(x))))
         x = self.dropout(self.pool(F.relu(self.conv2(x))))
@@ -60,6 +62,6 @@ class smallFCN(nn.Module):
         
         out = self.flatten(out)
 
-        out = F.softmax(out, dim=1)
+        # out = F.softmax(out, dim=1)
 
         return out

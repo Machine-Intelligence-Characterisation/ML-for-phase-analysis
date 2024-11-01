@@ -9,6 +9,15 @@ import scripts.training.config_training as config_training
 
 def train(model, train_loader, val_loader, test_loader, criterion, optimizer, device, num_epochs):
     best_val_loss = float('inf')
+
+    # Gradient check setup
+    def hook_fn(grad):
+        print(f"Gradient norm: {grad.norm().item():.9f}")
+
+    # Register hook for the first convolutional layer
+    first_conv_layer = next(layer for layer in model.modules() if isinstance(layer, torch.nn.Conv1d))
+    first_conv_layer.weight.register_hook(hook_fn)
+
     for epoch in range(num_epochs):
         model.train()
         train_loss = 0.0
@@ -17,11 +26,24 @@ def train(model, train_loader, val_loader, test_loader, criterion, optimizer, de
             data = data.unsqueeze(1).to(device)  # Add channel dimension
             target = target.to(device)
             
+            # Print input and target information for the first batch of the first epoch
+            if epoch == 0 and batch_idx == 0:
+                print("Input data shape:", data.shape)
+                print("Sample input:", data[0].cpu().numpy())
+                print("Max input value:", data.max().item())  # Add this line
+                print("Target data shape:", target.shape)
+                print("Sample target:", target[0].cpu().numpy())
+
             optimizer.zero_grad()
             output = model(data)
+            
+            # Print raw model output for the first batch of the first epoch
+            if epoch == 0 and batch_idx == 0:
+                print("Raw model output:", output[0].detach().cpu().numpy())
+
             # Convert model output to log probabilities
             log_output = torch.log(output + 1e-8)  # Add small constant to avoid log(0)
-            loss = criterion(log_output, target)
+            loss = criterion(output, target)
             loss.backward()
             optimizer.step()
             train_loss += loss.item()
@@ -80,7 +102,7 @@ def evaluate(model, data_loader, criterion, device):
             output = model(data)
             # Convert model output to log probabilities
             log_output = torch.log(output + 1e-8)  # Add small constant to avoid log(0)
-            loss = criterion(log_output, target)
+            loss = criterion(output, target)
             total_loss += loss.item()
             
             all_targets.append(target.cpu().numpy())

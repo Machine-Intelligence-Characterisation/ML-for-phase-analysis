@@ -4,7 +4,7 @@ import json
 import os
 from config_simulation import GENERAL, TOPAS, PHASES
 
-# TODO: get rid of ad hoc wavelengths.
+# TODO: get rid of ad hoc wavelength creation when processing config.
 
 def generate_random_value(param):
     if param['randomize']:

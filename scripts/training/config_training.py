@@ -5,6 +5,7 @@ import torch.optim as optim
 
 # Import models
 from src.models.smallFCN import smallFCN
+from src.models.MLP import MLP
 
 # TODO: Is model class necessary?
 
@@ -13,15 +14,15 @@ DATA_DIR = 'training_data/processed_data_numsims_2500_batch_20241010_212052'
 MODEL_SAVE_DIR = 'trained_models'
 
 # Model Setup
-MODEL_TYPE = "smallFCN"                 # Options: Any of the imported models. It should be a string. e.g. "smallFCN"
+MODEL_TYPE = "MLP"                 # Options: Any of the imported models. It should be a string. e.g. "smallFCN"
 
 # IF SINGLE TASK, loss
-CRITERION_TYPE = "KLDivLoss"  # Options: "CrossEntropyLoss", "MSELoss", "KLDivLoss"
+CRITERION_TYPE = "MSELoss"  # Options: "CrossEntropyLoss", "MSELoss", "KLDivLoss"
 
 # Hyper Params
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.00001
 BATCH_SIZE = 32
-NUM_EPOCHS = 6
+NUM_EPOCHS = 100
 
 # Optimiser
 OPTIMIZER_TYPE = "Adam" # Options: "Adam", "SGD"
@@ -39,7 +40,8 @@ WANDB_LOG_ARCHITECTURE = False
 ###########################################################################################
 ############# DON'T TOUCH - These classes contain the options for above ##################
 MODEL_CLASS = {
-    "smallFCN": smallFCN
+    "smallFCN": smallFCN,
+    "MLP": MLP
 }
 CRITERION_CLASS = {
     "CrossEntropyLoss": nn.CrossEntropyLoss,
