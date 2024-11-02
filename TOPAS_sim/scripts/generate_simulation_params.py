@@ -4,7 +4,35 @@ import json
 import os
 from config_simulation import GENERAL, TOPAS, PHASES
 
-# TODO: get rid of ad hoc wavelength creation when processing config.
+def compute_scale_factors(weight_fraction):
+
+    # Constants for scale factor calculations
+    # ZM values
+    ZM_Cor, ZM_Flu, ZM_Zin = 611.768, 312.299, 162.817
+    # V values
+    V_Cor, V_Flu, V_Zin = 254.123, 162.023, 47.290
+    # LAC values
+    LAC_Cor, LAC_Flu, LAC_Zin = 126.283, 303.163, 278.222
+    # Density values
+    density_Cor, density_Flu, density_Zin = 3.997530, 3.200700, 5.717180
+    # MAC values
+    MAC_Cor = LAC_Cor / density_Cor
+    MAC_Flu = LAC_Flu / density_Flu
+    MAC_Zin = LAC_Zin / density_Zin
+    # External K value
+    K_external = 427.6
+
+    # Compute mixture MAC
+    Um = (weight_fraction[0] * MAC_Cor + 
+          weight_fraction[1] * MAC_Flu + 
+          weight_fraction[2] * MAC_Zin)
+    
+    # Compute scale factors
+    S_Cor = (weight_fraction[0] * K_external) / (ZM_Cor * V_Cor * Um)
+    S_Flu = (weight_fraction[1] * K_external) / (ZM_Flu * V_Flu * Um)
+    S_Zin = (weight_fraction[2] * K_external) / (ZM_Zin * V_Zin * Um)
+    
+    return S_Cor, S_Flu, S_Zin
 
 def generate_random_value(param):
     if param['randomize']:
@@ -36,7 +64,7 @@ def generate_simulation_params():
         # Generate phase parameters
         for phase in PHASES:
             for key, value in phase.items():
-                if key == 'name':
+                if key == 'name' or key == 'scale_var':  # Skip scale_var as we'll compute it
                     continue
                 if isinstance(value, dict):
                     if value['randomize']:
@@ -46,8 +74,15 @@ def generate_simulation_params():
                 else:
                     params[f"{phase['name']}_{key}"] = value
 
-        # Generate weight fractions
+        # Generate weight fractions and compute scale factors
         weight_fraction = np.random.dirichlet([1, 1, 1])
+        scale_factors = compute_scale_factors(weight_fraction)
+        
+        # Set weight fractions and scale factors
+        params['Corundum_scale_var'] = scale_factors[0]
+        params['Fluorite_scale_var'] = scale_factors[1]
+        params['Zincite_scale_var'] = scale_factors[2]
+        
         for j, phase in enumerate(PHASES):
             params[f"{phase['name']}_weight_fraction"] = weight_fraction[j]
 
@@ -58,6 +93,7 @@ def generate_simulation_params():
 
 def generate_simulation_params_file(batch_dir, all_params):
     with open(f"{batch_dir}/simulation_params.txt", 'w') as f:
+
         # Write the header
         f.write("#list")
         for key in all_params[0].keys():

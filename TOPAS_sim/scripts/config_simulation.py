@@ -81,7 +81,6 @@ PHASES = [
         'Strain_G_var': {'value': 0.0001, 'randomize': True, 'range': (0.0001, 0.10)},
         'a_var': {'value': 4.758336, 'randomize': True, 'range': (4.7, 4.8)},
         'c_var': {'value': 12.989827, 'randomize': True, 'range': (12.9, 13.1)},
-        'scale_var': {'value': 0, 'randomize': True, 'range': (0, 1)},
     },
     {
         'name': 'Fluorite',
@@ -105,7 +104,6 @@ PHASES = [
         'Strain_L_var': {'value': 0.0142737618, 'randomize': True, 'range': (0.0001, 0.10)},
         'Strain_G_var': {'value': 0.000101123088, 'randomize': True, 'range': (0.0001, 0.10)},
         'a_var': {'value': 5.462971, 'randomize': True, 'range': (5.40, 5.50)},
-        'scale_var': {'value': 0, 'randomize': True, 'range': (0, 1)},
     },
     {
         'name': 'Zincite',
@@ -130,6 +128,5 @@ PHASES = [
         'Strain_G_var': {'value': 0.000100000009, 'randomize': True, 'range': (0.0001, 0.10)},
         'a_var': {'value': 3.249181, 'randomize': True, 'range': (3.17, 3.27)},
         'c_var': {'value': 5.205846, 'randomize': True, 'range': (5.15, 5.25)},
-        'scale_var': {'value': 0, 'randomize': True, 'range': (0, 1)},
     },
 ]

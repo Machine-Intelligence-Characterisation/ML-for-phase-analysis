@@ -1,0 +1,102 @@
+#include "simulation_params.txt"
+
+' --------------------------------------------
+'	Create a series of simulated patterns with random scale factors --> random QPA for Corundum, Fluorite, Zincite
+' --------------------------------------------
+iters 0			' Set to zero for calculated pattern 
+
+'	--------------------- 
+'  Simulation WITH counting statistics 
+'	--------------------- 
+' 	"calc_##Run_Number##.xy": identifying plot of the equation in the GUI - not outputting to current directory
+yobs_eqn !calc_##Run_Number##.xy = X; min two_theta_start_var(Run_Number) max two_theta_end_var(Run_Number) del two_theta_step_var(Run_Number)
+
+'	Save each simulated powder pattern in the XY file format: "S1_##Run_Number##.xy"
+Randomize_File_Out_Normal( xy_files/S1_##Run_Number##.xy )     ' Use this to output calculated pattern - WITH counting statistics 
+
+'	-------------------------------------------- 
+'	Instrument definition here
+'	-------------------------------------------- 
+r_exp r_exp_var(Run_Number) r_exp_dash r_exp_dash_var(Run_Number) r_wp R_wp_var(Run_Number) r_wp_dash r_wp_dash_var(Run_Number) r_p r_p_var(Run_Number) r_p_dash r_p_dash_var(Run_Number) weighted_Durbin_Watson weighted_Durbin_Watson_var(Run_Number) gof gof_var(Run_Number)
+bkg background_var(Run_Number)
+mixture_MAC mixture_MAC_var(Run_Number)`
+Zero_Error( !zerr, Zero_Error_var(Run_Number) min Zero_Error_var_min max Zero_Error_var_max )    
+Specimen_Displacement( !disp, Specimen_Displacement_var(Run_Number) min Specimen_Displacement_var_min(Run_Number) max Specimen_Displacement_var_max(Run_Number))  
+Absorption( !abs_a, Absorption_var(Run_Number) min Absorption_var_min(Run_Number) max Absorption_var_max(Run_Number) ) 
+	 
+LP_Factor( !lpfact, LP_Factor_var(Run_Number) ) 
+Rp Rp_var(Run_Number)
+Rs Rs_var(Run_Number)
+Slit_Width( !sw, Slit_Width_var(Run_Number) min Slit_Width_var_min(Run_Number) max Slit_Width_var_max(Run_Number))  
+Divergence( Divergence_var(Run_Number) ) 
+axial_conv  
+	filament_length filament_length_var(Run_Number)
+	sample_length sample_length_var(Run_Number)
+	receiving_slit_length receiving_slit_length_var(Run_Number)
+	primary_soller_angle !sol1 primary_soller_angle_var(Run_Number) min primary_soller_angle_var_min(Run_Number) max primary_soller_angle_var_max(Run_Number)
+	secondary_soller_angle !sol2 secondary_soller_angle_var(Run_Number) min secondary_soller_angle_var_min(Run_Number) max secondary_soller_angle_var_max(Run_Number)
+	axial_n_beta axial_n_beta_var(Run_Number)
+	axial_del axial_del_var(Run_Number)
+lam 
+	ymin_on_ymax  ymin_on_ymax_var(Run_Number) 
+	la  wavelength_la_0(Run_Number)  lo  wavelength_lo_0(Run_Number)  lh  wavelength_lh_0(Run_Number) 
+	la  wavelength_la_1(Run_Number)  lo  wavelength_lo_1(Run_Number)  lh  wavelength_lh_1(Run_Number) 
+	la  wavelength_la_2(Run_Number)  lo  wavelength_lo_2(Run_Number)  lh  wavelength_lh_2(Run_Number) 
+	la  wavelength_la_3(Run_Number)  lo  wavelength_lo_3(Run_Number)  lh  wavelength_lh_3(Run_Number) 
+	la  wavelength_la_4(Run_Number)  lo  wavelength_lo_4(Run_Number)  lh  wavelength_lh_4(Run_Number)
+		 
+'	-------------------------------------------- 
+'	All STRs here
+' 	--------------------- 
+' 		Corundum STR
+str 
+	phase_name "Corundum" 
+	r_bragg  Corundum_r_bragg_var(Run_Number) 
+	MVW( 0, 0, 0) 
+	CS_L(!cslcor,  Corundum_CS_L_var(Run_Number)` min Corundum_CS_L_var_min(Run_Number) max Corundum_CS_L_var_max(Run_Number)  ) 
+	CS_G(!csgcor,  Corundum_CS_G_var(Run_Number)` min Corundum_CS_G_va_min(Run_Number) max Corundum_CS_G_var_max(Run_Number)  ) 
+	Strain_L(!mslcor,  Corundum_Strain_L_var(Run_Number)` min Corundum_Strain_L_var_min(Run_Number) max Corundum_Strain_L_var_max(Run_Number)  ) 
+	Strain_G(!msgcor,  Corundum_Strain_G_var(Run_Number)` min Corundum_Strain_G_var_min(Run_Number) max Corundum_Strain_G_var_max(Run_Number)  ) 
+	space_group R_-3_C 
+	Phase_LAC_1_on_cm(  Corundum_Phase_LAC_1_on_cm_var(Run_Number)`  ) 
+	Phase_Density_g_on_cm3(  Corundum_Phase_Density_g_on_cm3_var(Run_Number)`  ) 
+	site Al num_posns 12 x  Corundum_Al_x_var(Run_Number)  y  Corundum_Al_y_var(Run_Number)  z  Corundum_Al_z_var(Run_Number)  occ Al+3 1 beq  Corundum_Al_beq_var(Run_Number) 
+	site O num_posns 18 x  Corundum_O_x_var(Run_Number)  y  Corundum_O_y_var(Run_Number)  z  Corundum_O_z_var(Run_Number)  occ O-2 1 beq  Corundum_O_beq_var(Run_Number) 
+	Trigonal(!acor  Corundum_a_var(Run_Number)` min Corundum_a_var_min(Run_Number) max Corundum_a_var_max(Run_Number)  , !ccor  Corundum_c_var(Run_Number)` min Corundum_c_var_min(Run_Number) max Corundum_c_var_max(Run_Number))
+	scale =Corundum_scale_var(Run_Number); : 0
+
+' --------------------- 
+' 		Fluorite STR 
+str  
+	phase_name "Fluorite" 
+	r_bragg  Fluorite_r_bragg_var(Run_Number) 
+	MVW( 0, 0, 0) 
+	CS_L(!cslcaf,  Fluorite_CS_L_var(Run_Number)` min Fluorite_CS_L_var_min(Run_Number) max Fluorite_CS_L_var_max(Run_Number)  ) 
+	CS_G(!csgcaf,  Fluorite_CS_G_var(Run_Number)` min Fluorite_CS_G_var_min(Run_Number) max Fluorite_CS_G_var_max(Run_Number)  ) 
+	Strain_L(!mslcaf,  Fluorite_Strain_L_var(Run_Number)` min Fluorite_Strain_L_var_min(Run_Number) max Fluorite_Strain_L_var_max(Run_Number) )
+	Strain_G(!msgcaf,  Fluorite_Strain_G_var(Run_Number)` min Fluorite_Strain_G_var_min(Run_Number) max Fluorite_Strain_G_var_max(Run_Number)  )
+	space_group F_M_-3_M 
+	Phase_LAC_1_on_cm(  Fluorite_Phase_LAC_1_on_cm_var(Run_Number)`  ) 
+	Phase_Density_g_on_cm3(  Fluorite_Phase_Density_g_on_cm3_var(Run_Number)`  ) 
+	site Ca num_posns 4 x  Fluorite_Ca_x_var(Run_Number)  y  Fluorite_Ca_y_var(Run_Number)  z  Fluorite_Ca_z_var(Run_Number)  occ Ca+2 1 beq  Fluorite_Ca_beq_var(Run_Number) 
+	site F num_posns 8 x  Fluorite_F_x_var(Run_Number)  y  Fluorite_F_y_var(Run_Number)  z  Fluorite_F_z_var(Run_Number)  occ F-1 1 beq  Fluorite_F_beq_var(Run_Number) 
+	Cubic(!acaf  Fluorite_a_var(Run_Number)` min =Fluorite_a_var(Run_Number); max =Fluorite_a_var(Run_Number); )
+	scale =Fluorite_scale_var(Run_Number); : 0
+
+' --------------------- 
+' 		Zincite STR
+str  
+	phase_name "Zincite" 
+	r_bragg  Zincite_r_bragg_var(Run_Number) 
+	MVW( 0, 0, 0) 
+	CS_L(!cslzno,  Zincite_CS_L_var(Run_Number)` min Zincite_CS_L_var_min(Run_Number) max Zincite_CS_L_var_max(Run_Number)  ) 
+	CS_G(!csgzin,  Zincite_CS_G_var(Run_Number)` min Zincite_CS_G_var_min(Run_Number) max Zincite_CS_G_var_max(Run_Number)  ) 
+	Strain_L(!mslzin,  Zincite_Strain_L_var(Run_Number)` min Zincite_Strain_L_var_min(Run_Number) max Zincite_Strain_L_var_max(Run_Number)  ) 
+	Strain_G(!msgzin,  Zincite_Strain_G_var(Run_Number)` min Zincite_Strain_G_var_min(Run_Number) max Zincite_Strain_G_var_max(Run_Number)  ) 
+	space_group P_63_M_C 
+	Phase_LAC_1_on_cm(  Zincite_Phase_LAC_1_on_cm_var(Run_Number)`  ) 
+	Phase_Density_g_on_cm3(  Zincite_Phase_Density_g_on_cm3_var(Run_Number)`  ) 
+	site Zn num_posns 2 x  =Zincite_Zn_x_var(Run_Number); y  =Zincite_Zn_y_var(Run_Number); z  Zincite_Zn_z_var(Run_Number) occ Zn+2 1 beq  Zincite_Zn_beq_var(Run_Number)
+	site O num_posns 2 x  =Zincite_O_x_var(Run_Number); y  =Zincite_O_y_var(Run_Number); z  =Zincite_O_z_var(Run_Number); occ O-2 1 beq  Zincite_O_beq_var(Run_Number)
+	Hexagonal(!azin  Zincite_a_var(Run_Number)` min =Zincite_a_var_min(Run_Number); max =Zincite_a_var_max(Run_Number); , !czin  Zincite_c_var(Run_Number)` min =Zincite_c_var_min(Run_Number); max =Zincite_c_var_max(Run_Number); )
+	scale =Zincite_scale_var(Run_Number); : 0
