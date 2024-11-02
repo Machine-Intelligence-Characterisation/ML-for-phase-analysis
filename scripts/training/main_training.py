@@ -84,7 +84,7 @@ def main():
         wandb.watch(model)
 
     # Train the model
-    trained_model, test_loss, test_accuracy = train_fcn(
+    trained_model, test_loss, test_accuracy = train_mlp(
         model, train_loader, val_loader, test_loader, criterion, optimizer, 
         device, config_training.NUM_EPOCHS
     )

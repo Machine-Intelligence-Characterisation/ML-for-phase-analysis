@@ -7,7 +7,7 @@
 #SBATCH --mem=16G
 #SBATCH --time=2:00:00
 
-#SBATCH --output=/monfs01/projects/ys68/XRD_phase_analsis/using_Monash_HPC/run_monARCH_GPU/slurm_outputs/SLURM%j.out
+#SBATCH --output=/monfs01/projects/ys68/XRD_phase_analysis/using_Monash_HPC/run_monARCH_GPU/slurm_outputs/SLURM%j.out
 
 # Load necessary modules
 module load cuda

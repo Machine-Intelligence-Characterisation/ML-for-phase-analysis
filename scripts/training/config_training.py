@@ -15,15 +15,15 @@ DATA_DIR = 'training_data/processed_data_2'
 MODEL_SAVE_DIR = 'trained_models'
 
 # Model Setup
-MODEL_TYPE = "smallFCN"               # Options: Any of the imported models. It should be a string. e.g. "smallFCN", "MLP"
+MODEL_TYPE = "MLP"               # Options: Any of the imported models. It should be a string. e.g. "smallFCN", "MLP"
 
 # IF SINGLE TASK, loss
 CRITERION_TYPE = "MSELoss"  # Options: "CrossEntropyLoss", "MSELoss", "KLDivLoss"
 
 # Hyper Params
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.00001
 BATCH_SIZE = 32
-NUM_EPOCHS = 20
+NUM_EPOCHS = 200
 
 # Optimiser
 OPTIMIZER_TYPE = "Adam" # Options: "Adam", "SGD"
