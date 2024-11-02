@@ -2,11 +2,24 @@ import torch
 import wandb
 from tqdm import tqdm
 import numpy as np
+from torch.optim.lr_scheduler import ReduceLROnPlateau, CosineAnnealingLR, OneCycleLR
 
-# TODD: Save best model in the right place
-
-def train_mlp(model, train_loader, val_loader, test_loader, criterion, optimizer, device, num_epochs):
+def train_mlp_2(model, train_loader, val_loader, test_loader, criterion, optimizer, device, num_epochs, scheduler_type='reduce_on_plateau'):
     best_val_loss = float('inf')
+    
+    # Initialize scheduler based on type
+    if scheduler_type == 'reduce_on_plateau':
+        scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=5, verbose=True)
+    elif scheduler_type == 'cosine':
+        scheduler = CosineAnnealingLR(optimizer, T_max=num_epochs, eta_min=1e-6)
+    elif scheduler_type == 'one_cycle':
+        # Calculate the total number of steps
+        steps_per_epoch = len(train_loader)
+        total_steps = num_epochs * steps_per_epoch
+        scheduler = OneCycleLR(optimizer, max_lr=optimizer.param_groups[0]['lr'],
+                             total_steps=total_steps)
+    else:
+        raise ValueError(f"Unsupported scheduler type: {scheduler_type}")
     
     for epoch in range(num_epochs):
         model.train()
@@ -25,17 +38,27 @@ def train_mlp(model, train_loader, val_loader, test_loader, criterion, optimizer
             loss.backward()
             optimizer.step()
             
+            # Step the one cycle scheduler every batch if using it
+            if scheduler_type == 'one_cycle':
+                scheduler.step()
+            
             train_loss += loss.item()
             num_batches += 1
             num_samples += data.size(0)
         
         avg_train_loss = train_loss / num_batches
         
-        print(f"Epoch {epoch+1} - Processed {num_samples} samples in {num_batches} batches")
-        print(f"Epoch {epoch+1} - Average training loss: {avg_train_loss:.4f}")
-        
         # Evaluate on validation set
         val_loss, val_metrics = evaluate(model, val_loader, criterion, device)
+        
+        # Step the scheduler (except for one_cycle which steps per batch)
+        if scheduler_type == 'reduce_on_plateau':
+            scheduler.step(val_loss)
+        elif scheduler_type == 'cosine':
+            scheduler.step()
+        
+        # Get current learning rate
+        current_lr = optimizer.param_groups[0]['lr']
         
         # Log metrics to wandb
         if wandb.run is not None:
@@ -45,19 +68,28 @@ def train_mlp(model, train_loader, val_loader, test_loader, criterion, optimizer
                 "val_loss": val_loss,
                 "val_mae": val_metrics['mae'],
                 "val_mse": val_metrics['mse'],
-                "val_r2": val_metrics['r2']
+                "val_r2": val_metrics['r2'],
+                "learning_rate": current_lr
             })
         
-        print(f'Epoch {epoch+1}: Train loss: {avg_train_loss:.8f}, Val loss: {val_loss:.8f}, Val MAE: {val_metrics["mae"]:.8f}')
+        print(f'Epoch {epoch+1}: Train loss: {avg_train_loss:.8f}, Val loss: {val_loss:.8f}, '
+              f'Val MAE: {val_metrics["mae"]:.8f}, LR: {current_lr:.2e}')
         
         # Save the best model
         if val_loss < best_val_loss:
             best_val_loss = val_loss
-            torch.save(model.state_dict(), 'best_model_mlp.pth')
+            torch.save({
+                'epoch': epoch,
+                'model_state_dict': model.state_dict(),
+                'optimizer_state_dict': optimizer.state_dict(),
+                'scheduler_state_dict': scheduler.state_dict(),
+                'val_loss': val_loss,
+            }, 'best_model_mlp.pth')
             print(f"Saved new best model with validation loss: {best_val_loss:.4f}")
     
     # Load the best model for final evaluation
-    model.load_state_dict(torch.load('best_model_mlp.pth'))
+    checkpoint = torch.load('best_model_mlp.pth')
+    model.load_state_dict(checkpoint['model_state_dict'])
     
     # Evaluate on the test set
     test_loss, test_metrics = evaluate(model, test_loader, criterion, device)

@@ -40,7 +40,7 @@ class TOPASXRDDataset(Dataset):
         
         return intensity_tensor, weight_fraction_tensor, add_params_tensor
 
-def create_data_loaders(data_dir, batch_size=32, num_workers=3, train_split=0.7, val_split=0.15):
+def create_data_loaders(data_dir, batch_size=32, num_workers=3, train_split=0.8, val_split=0.1):
     # Create the dataset
     dataset = TOPASXRDDataset(data_dir)
     

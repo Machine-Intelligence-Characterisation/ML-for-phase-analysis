@@ -10,6 +10,7 @@ import scripts.training.config_training as config_training
 from src.data_loading.TOPASXRD_data_loader import create_data_loaders
 from src.training.train_fcn import train_fcn
 from src.training.train_mlp import train_mlp
+from src.training.train_mlp_2 import train_mlp_2
 from src.utils.check_GPUs import check_gpus
 
 # TODO: Setup_device() function has not been tested with multiple GPUs. I am not currently sure how it will handle multiple GPUs. These needs to be done before large training runs.
@@ -84,7 +85,7 @@ def main():
         wandb.watch(model)
 
     # Train the model
-    trained_model, test_loss, test_accuracy = train_mlp(
+    trained_model, test_loss, test_accuracy = train_mlp_2(
         model, train_loader, val_loader, test_loader, criterion, optimizer, 
         device, config_training.NUM_EPOCHS
     )

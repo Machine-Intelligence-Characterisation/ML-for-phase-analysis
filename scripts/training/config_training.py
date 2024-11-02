@@ -11,11 +11,11 @@ from src.models.MLP import MLP
 # TODO: Put train file with model file. Or are you going to use it across models? Decide.
 
 # Paths (Data should point to processed data)
-DATA_DIR = 'training_data/processed_data_2'
+DATA_DIR = 'training_data/processed_data_3'
 MODEL_SAVE_DIR = 'trained_models'
 
 # Model Setup
-MODEL_TYPE = "MLP"               # Options: Any of the imported models. It should be a string. e.g. "smallFCN", "MLP"
+MODEL_TYPE = "MLP"            # Options: Any of the imported models. It should be a string. e.g. "smallFCN", "MLP"
 
 # IF SINGLE TASK, loss
 CRITERION_TYPE = "MSELoss"  # Options: "CrossEntropyLoss", "MSELoss", "KLDivLoss"
@@ -23,7 +23,7 @@ CRITERION_TYPE = "MSELoss"  # Options: "CrossEntropyLoss", "MSELoss", "KLDivLoss
 # Hyper Params
 LEARNING_RATE = 0.00001
 BATCH_SIZE = 32
-NUM_EPOCHS = 200
+NUM_EPOCHS = 400
 
 # Optimiser
 OPTIMIZER_TYPE = "Adam" # Options: "Adam", "SGD"
