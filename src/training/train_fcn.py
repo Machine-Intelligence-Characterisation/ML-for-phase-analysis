@@ -7,7 +7,7 @@ import numpy as np
 # Config
 import scripts.training.config_training as config_training
 
-def train(model, train_loader, val_loader, test_loader, criterion, optimizer, device, num_epochs):
+def train_fcn(model, train_loader, val_loader, test_loader, criterion, optimizer, device, num_epochs):
     best_val_loss = float('inf')
 
     # Gradient check setup

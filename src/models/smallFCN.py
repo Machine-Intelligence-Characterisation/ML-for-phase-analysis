@@ -62,6 +62,6 @@ class smallFCN(nn.Module):
         
         out = self.flatten(out)
 
-        # out = F.softmax(out, dim=1)
+        out = F.softmax(out, dim=1)
 
         return out

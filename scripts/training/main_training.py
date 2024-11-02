@@ -8,7 +8,7 @@ import scripts.training.config_training as config_training
 
 # Functions
 from src.data_loading.TOPASXRD_data_loader import create_data_loaders
-from src.training.train import train
+from src.training.train_fcn import train_fcn
 from src.training.train_mlp import train_mlp
 from src.utils.check_GPUs import check_gpus
 
@@ -84,7 +84,7 @@ def main():
         wandb.watch(model)
 
     # Train the model
-    trained_model, test_loss, test_accuracy = train_mlp(
+    trained_model, test_loss, test_accuracy = train_fcn(
         model, train_loader, val_loader, test_loader, criterion, optimizer, 
         device, config_training.NUM_EPOCHS
     )

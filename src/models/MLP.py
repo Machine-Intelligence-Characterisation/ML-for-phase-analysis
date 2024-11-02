@@ -27,6 +27,6 @@ class MLP(nn.Module):
         x = self.dropout(F.relu(self.fc3(x)))
         out = self.fc4(x)
         
-        # out = F.softmax(out, dim=1)
+        out = F.softmax(out, dim=1)
         
         return out

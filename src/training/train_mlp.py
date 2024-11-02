@@ -3,6 +3,8 @@ import wandb
 from tqdm import tqdm
 import numpy as np
 
+# TODD: Save best model in the right place
+
 def train_mlp(model, train_loader, val_loader, test_loader, criterion, optimizer, device, num_epochs):
     best_val_loss = float('inf')
     
@@ -15,23 +17,9 @@ def train_mlp(model, train_loader, val_loader, test_loader, criterion, optimizer
         for batch_idx, (data, target, _) in enumerate(tqdm(train_loader, desc=f"Epoch {epoch+1} Training")):
             # Move data to device
             data = data.to(device)
-            target = target.to(device)
-            
-            # Print input and target information for the first batch of each epoch
-            if batch_idx == 0:
-                print(f"Epoch {epoch+1} - First batch info:")
-                print(f"Input data shape: {data.shape}")
-                print(f"Sample input: {data[0].cpu().numpy()}")
-                print(f"Input data range: [{data.min().item():.4f}, {data.max().item():.4f}]")
-                print(f"Target data shape: {target.shape}")
-                print(f"Sample target: {target[0].cpu().numpy()}")
-            
+            target = target.to(device)     
             optimizer.zero_grad()
             output = model(data)
-            
-            # Print raw model output for the first batch of each epoch
-            if batch_idx == 0:
-                print(f"Raw model output: {output[0].detach().cpu().numpy()}")
             
             loss = criterion(output, target)
             loss.backward()
@@ -69,7 +57,7 @@ def train_mlp(model, train_loader, val_loader, test_loader, criterion, optimizer
             print(f"Saved new best model with validation loss: {best_val_loss:.4f}")
     
     # Load the best model for final evaluation
-    model.load_state_dict(torch.load('best_model.pth'))
+    model.load_state_dict(torch.load('best_model_mlp.pth'))
     
     # Evaluate on the test set
     test_loss, test_metrics = evaluate(model, test_loader, criterion, device)
@@ -113,9 +101,5 @@ def evaluate(model, data_loader, criterion, device):
     mae = np.mean(np.abs(all_targets - all_outputs))
     mse = np.mean((all_targets - all_outputs)**2)
     r2 = 1 - np.sum((all_targets - all_outputs)**2) / np.sum((all_targets - np.mean(all_targets))**2)
-    
-    print(f"Evaluation - Processed {num_samples} samples")
-    print(f"Evaluation - Average loss: {avg_loss:.4f}")
-    print(f"Evaluation - MAE: {mae:.4f}, MSE: {mse:.4f}, R2: {r2:.4f}")
     
     return avg_loss, {'mae': mae, 'mse': mse, 'r2': r2}
