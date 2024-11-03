@@ -5,25 +5,30 @@ import torch.optim as optim
 
 # Import models
 from src.models.smallFCN import smallFCN
-from src.models.MLP import MLP
+from src.models.MLP import MLP, MLP2
 
 # TODO: Is model class necessary?
 # TODO: Put train file with model file. Or are you going to use it across models? Decide.
 
 # Paths (Data should point to processed data)
-DATA_DIR = 'training_data/processed_data_3'
+DATA_DIRS = [
+    'training_data/processed_data_p1',
+    'training_data/processed_data_p2',
+    'training_data/processed_data_p3',
+    'training_data/processed_data_p4'
+]
 MODEL_SAVE_DIR = 'trained_models'
 
 # Model Setup
-MODEL_TYPE = "MLP"            # Options: Any of the imported models. It should be a string. e.g. "smallFCN", "MLP"
+MODEL_TYPE = "MLP2"          # Options: Any of the imported models. It should be a string. e.g. "smallFCN", "MLP"
 
 # IF SINGLE TASK, loss
 CRITERION_TYPE = "MSELoss"  # Options: "CrossEntropyLoss", "MSELoss", "KLDivLoss"
 
 # Hyper Params
-LEARNING_RATE = 0.00001
+LEARNING_RATE = 0.0000004
 BATCH_SIZE = 32
-NUM_EPOCHS = 400
+NUM_EPOCHS = 150
 
 # Optimiser
 OPTIMIZER_TYPE = "Adam" # Options: "Adam", "SGD"
@@ -42,7 +47,8 @@ WANDB_LOG_ARCHITECTURE = False
 ############# DON'T TOUCH - These classes contain the options for above ##################
 MODEL_CLASS = {
     "smallFCN": smallFCN,
-    "MLP": MLP
+    "MLP": MLP,
+    "MLP2": MLP2
 }
 CRITERION_CLASS = {
     "CrossEntropyLoss": nn.CrossEntropyLoss,

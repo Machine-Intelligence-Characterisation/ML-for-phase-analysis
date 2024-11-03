@@ -2,8 +2,8 @@ from datetime import datetime
 
 # General Simulation Parameters
 GENERAL = {
-    'num_simulations': 10000,
-    'random_seed': 73,       # For generating the randomised values between ranges
+    'num_simulations': 12000,
+    'random_seed': 93,       # For generating the randomised values between ranges
     'template_file': "TOPAS_sim/input/topas_template.inp"
 }
 GENERAL['output_directory'] = f"TOPAS_sim/simulations/batch_{datetime.now().strftime('%Y%m%d_%H%M%S')}_NumSims{GENERAL['num_simulations']}"

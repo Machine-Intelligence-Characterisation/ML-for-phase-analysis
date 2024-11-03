@@ -57,5 +57,5 @@ def prepare_ml_data(batch_dir):
     print(f"All parameters shape: {params_df.shape}")
 
 if __name__ == "__main__":
-    batch_dir = "TOPAS_sim/simulations/batch_20241102_175210_NumSims3944"
+    batch_dir = "TOPAS_sim/simulations/batch_20241103_195443_NumSims12000_p4"
     prepare_ml_data(batch_dir)

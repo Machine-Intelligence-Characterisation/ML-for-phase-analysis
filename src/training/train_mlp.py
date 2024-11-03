@@ -6,7 +6,8 @@ import numpy as np
 # TODD: Save best model in the right place
 
 def train_mlp(model, train_loader, val_loader, test_loader, criterion, optimizer, device, num_epochs):
-    best_val_loss = float('inf')
+    best_val_loss = float('inf')    
+    best_model_path = 'trained_models/best_model_mlp.pth'
     
     for epoch in range(num_epochs):
         model.train()
@@ -53,11 +54,25 @@ def train_mlp(model, train_loader, val_loader, test_loader, criterion, optimizer
         # Save the best model
         if val_loss < best_val_loss:
             best_val_loss = val_loss
-            torch.save(model.state_dict(), 'best_model_mlp.pth')
-            print(f"Saved new best model with validation loss: {best_val_loss:.4f}")
+            try:
+                torch.save({
+                    'epoch': epoch,
+                    'model_state_dict': model.state_dict(),
+                    'optimizer_state_dict': optimizer.state_dict(),
+                    'val_loss': val_loss,
+                    'val_metrics': val_metrics
+                }, best_model_path)
+                print(f"Saved new best model with validation loss: {best_val_loss:.8f}")
+            except Exception as e:
+                print(f"Failed to save model: {e}")
     
     # Load the best model for final evaluation
-    model.load_state_dict(torch.load('best_model_mlp.pth'))
+    try:
+        checkpoint = torch.load(best_model_path)
+        model.load_state_dict(checkpoint['model_state_dict'])
+        print(f"Loaded best model from epoch {checkpoint['epoch']} with validation loss: {checkpoint['val_loss']:.8f}")
+    except Exception as e:
+        print(f"Failed to load best model: {e}")
     
     # Evaluate on the test set
     test_loss, test_metrics = evaluate(model, test_loader, criterion, device)

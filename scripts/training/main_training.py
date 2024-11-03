@@ -58,7 +58,7 @@ def save_model(model, final_metrics):
     # Use MAE as the accuracy metric for the filename
     mae = final_metrics['test_accuracy']['mae']
     
-    model_name = f"{config_training.MODEL_TYPE}_mae_{mae:.4f}_{current_time}.pth"
+    model_name = f"{config_training.MODEL_TYPE}_mae_{mae:.8f}_{current_time}.pth"
     full_path = f'{config_training.MODEL_SAVE_DIR}/{model_name}'
     torch.save(model.state_dict(), full_path)
     return full_path, model_name
@@ -70,7 +70,7 @@ def main():
 
     # Create data loaders
     train_loader, val_loader, test_loader = create_data_loaders(
-        config_training.DATA_DIR,
+        config_training.DATA_DIRS,
         config_training.BATCH_SIZE, config_training.NUM_WORKERS
     )
 
@@ -85,7 +85,7 @@ def main():
         wandb.watch(model)
 
     # Train the model
-    trained_model, test_loss, test_accuracy = train_mlp_2(
+    trained_model, test_loss, test_accuracy = train_mlp(
         model, train_loader, val_loader, test_loader, criterion, optimizer, 
         device, config_training.NUM_EPOCHS
     )
