@@ -64,3 +64,102 @@ class MLP2(nn.Module):
         out = F.softmax(out, dim=1)
         
         return out
+    
+class MLP3(nn.Module):
+    def __init__(self):
+        super(MLP3, self).__init__()
+        
+        self.fc1 = nn.Linear(7250, 1024)
+        self.fc2 = nn.Linear(1024, 512)
+        self.fc3 = nn.Linear(512, 256)
+        self.fc4 = nn.Linear(256, 3)
+        
+        self.dropout = nn.Dropout(0.1)
+        self.flatten = nn.Flatten()
+
+    def forward(self, x):
+        x = self.flatten(x)
+        x = self.dropout(F.relu(self.fc1(x)))
+        x = self.dropout(F.relu(self.fc2(x)))
+        x = self.dropout(F.relu(self.fc3(x)))
+        out = F.softmax(self.fc4(x), dim=1)
+        return out
+    
+class MLP4(nn.Module):
+    def __init__(self):
+        super(MLP4, self).__init__()
+        
+        self.fc1 = nn.Linear(7250, 1024)
+        self.fc2 = nn.Linear(1024, 512)
+        self.fc3 = nn.Linear(512, 256)
+        self.fc4 = nn.Linear(256, 3)
+        
+        self.flatten = nn.Flatten()
+
+    def forward(self, x):
+        x = self.flatten(x)
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = F.relu(self.fc3(x))
+        out = F.softmax(self.fc4(x), dim=1)
+        return out
+    
+class MLP5(nn.Module):
+    def __init__(self):
+        super(MLP5, self).__init__()
+        
+        self.fc1 = nn.Linear(7250, 1024)
+        self.fc2 = nn.Linear(1024, 512)
+        self.fc3 = nn.Linear(512, 256)
+        self.fc4 = nn.Linear(256, 3)
+        
+        self.dropout = nn.Dropout(0.05)
+        self.flatten = nn.Flatten()
+
+    def forward(self, x):
+        x = self.flatten(x)
+        x = self.dropout(F.relu(self.fc1(x)))
+        x = self.dropout(F.relu(self.fc2(x)))
+        x = self.dropout(F.relu(self.fc3(x)))
+        out = F.softmax(self.fc4(x), dim=1)
+        return out
+    
+class MLP6(nn.Module):
+    def __init__(self):
+        super(MLP6, self).__init__()
+        
+        self.fc1 = nn.Linear(7250, 1024)
+        self.fc2 = nn.Linear(1024, 512)
+        self.fc3 = nn.Linear(512, 256)
+        self.fc4 = nn.Linear(256, 3)
+        
+        self.dropout = nn.Dropout(0.01)
+        self.flatten = nn.Flatten()
+
+    def forward(self, x):
+        x = self.flatten(x)
+        x = self.dropout(F.relu(self.fc1(x)))
+        x = self.dropout(F.relu(self.fc2(x)))
+        x = self.dropout(F.relu(self.fc3(x)))
+        out = F.softmax(self.fc4(x), dim=1)
+        return out
+    
+class MLP7(nn.Module):
+    def __init__(self):
+        super(MLP7, self).__init__()
+        
+        self.fc1 = nn.Linear(7250, 1024)
+        self.fc2 = nn.Linear(1024, 512)
+        self.fc3 = nn.Linear(512, 256)
+        self.fc4 = nn.Linear(256, 3)
+        
+        self.dropout = nn.Dropout(0.025)
+        self.flatten = nn.Flatten()
+
+    def forward(self, x):
+        x = self.flatten(x)
+        x = self.dropout(F.relu(self.fc1(x)))
+        x = self.dropout(F.relu(self.fc2(x)))
+        x = self.dropout(F.relu(self.fc3(x)))
+        out = F.softmax(self.fc4(x), dim=1)
+        return out

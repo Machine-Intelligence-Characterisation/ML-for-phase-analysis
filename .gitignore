@@ -26,6 +26,7 @@ TOPAS_sim/simulations/**/*.txt
 *.npy
 *.csv
 *.json
+*.zip
 
 
 
