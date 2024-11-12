@@ -1,5 +1,0 @@
-## INCOMPLETE, NOT COMMENTED, DON'T TINKER ##
-
-# TODO: Setup nice inference paths. CPU Inference?
-
-sbatch /monfs01/projects/ys68/XRD_ML/monash_HPC_setup/run_monARCH_GPU/sh/submit_inference_job.sh
