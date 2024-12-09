@@ -1,5 +1,7 @@
 from datetime import datetime
 
+#TODO: Randomising CS_L wrong.
+
 # General Simulation Parameters
 GENERAL = {
     'num_simulations': 5000,
