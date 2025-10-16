@@ -3,7 +3,7 @@ import wandb
 from tqdm import tqdm
 import numpy as np
 
-# TODD: Save best model in the right place
+# TODO: Save best model in the right place
 
 def train_mlp(model, train_loader, val_loader, test_loader, criterion, optimizer, device, num_epochs):
     best_val_loss = float('inf')    

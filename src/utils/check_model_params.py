@@ -5,6 +5,8 @@
 from src.models.smallFCN import smallFCN #, smallFCN_MultiTask, smallFCN_SelfAttention_MultiTask, experimentalFCN
 #from src.models.ViT import ViT1D_MultiTask
 
+# Counts the number of parameters in your model
+
 def print_model_parameters(model):
     total_params = 0
     for name, parameter in model.named_parameters():

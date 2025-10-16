@@ -1,6 +1,8 @@
 import torch.nn as nn
 import torch.nn.functional as F
 
+# TODO: This is a collection of different MLP archs
+
 class MLP(nn.Module):
     def __init__(self):
         super(MLP, self).__init__()
